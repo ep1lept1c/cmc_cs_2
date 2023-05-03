@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+extern double func1(double x);                          
+extern double func2(double x);                                              //функции из асм 
+extern double func3(double x);
 double d(double (* f)(double), double (* g)(double), double x){             // функция вычисления производной в точке
-    double eps = 0.00001;
+    double eps = 0.000001;
     return ((f(x + eps) - g(x + eps)) - (f(x) - g(x)))/eps;
 }
 double root(double (* f)(double), double (* g)(double), double a, double b, double eps1){  // функция нахождение корня композиции ф-ций
@@ -47,21 +50,22 @@ double integral(double (* f)(double), double a, double b, double eps2){       //
     }
     return I2n;
 }
-double f1(double x){
-    return 1 + pow(2, x);
-}
-double f2(double x){
-    return pow(x, 5);
-}
-double f3(double x){
-    return (1 - x)/3;
-}
 int main(void){
-    double x13 = root(f1, f3, -3, -2, 0.00001);        
-    double x12 = root(f1, f2, 1, 2, 0.00001);
-    double x23 = root(f2, f3, 0, 1, 0.00001);
-    printf("%.3lf", integral(f1, x13, x12, 0.0001));
-    printf("\n%.3lf", integral(f2, x23, x12, 0.0001));
-    printf("\n%.3lf", integral(f3, x13, x23, 0.0001));
+    double x13 = root(func1, func3, -3, -2, 0.00001);
+    double x12 = root(func1, func2, 1, 2, 0.00001);
+    double x23 = root(func2, func3, 0, 1, 0.00001);
+    printf("%.4lf\n", integral(func1, x13, x12, 0.0001) - integral(func2, x23, x12, 0.0001) - integral(func3, x13, x23, 0.0001));
     return 0;
 }
+/*
+double f1(double x){             <-|
+    return 1 + pow(2, x);          |
+}                                  | 
+double f2(double x){             <-|  функции, используемые ранее для проверки си-кода [я проверил, он верный:)]                   
+    return pow(x, 5);              | 
+}                                  | 
+double f3(double x){             <-| 
+    return (1 - x)/3;
+}
+*/
+
