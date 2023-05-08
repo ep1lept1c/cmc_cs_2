@@ -51,9 +51,9 @@ double integral(double (* f)(double), double a, double b, double eps2){       //
     return I2n;
 }
 int main(void){
-    double x13 = root(func1, func3, -3, -2, 0.00001);
-    double x12 = root(func1, func2, 1, 2, 0.00001);
-    double x23 = root(func2, func3, 0, 1, 0.00001);
+    double x13 = root(func1, func3, -3, -2, 0.000025);
+    double x12 = root(func1, func2, 1, 2, 0.000025);
+    double x23 = root(func2, func3, 0, 1, 0.000025);
     printf("%.4lf\n", integral(func1, x13, x12, 0.0001) - integral(func2, x23, x12, 0.0001) - integral(func3, x13, x23, 0.0001));
     return 0;
 }
